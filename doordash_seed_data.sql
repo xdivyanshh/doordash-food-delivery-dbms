@@ -75,41 +75,41 @@ INSERT INTO storage_locations (
 (1, 'Packaging Ambient Warehouse', 'AMBIENT', 24.0, TRUE);
 
 -- ----------------------------------------------------------------------------
--- STEP 4: INGREDIENTS (BOM Components with Target Unit Costs)
+-- STEP 4: INGREDIENTS (BOM Components with Target Unit Costs in INR)
 -- ----------------------------------------------------------------------------
 INSERT INTO ingredients (
     ingredient_name, category, unit_of_measure, cost_per_unit, 
     reorder_threshold, preferred_supplier_id, storage_location_id
 ) VALUES
-('Mozzarella Cheese Blend', 'Dairy', 'kg', 4.20, 5.00, 1, 2),
-('Fresh Russet Potatoes', 'Produce', 'kg', 0.28, 15.00, 2, 3),
-('Artisan Beef Patty', 'Meat', 'kg', 4.80, 8.00, 1, 1),
-('Brioche Burger Buns', 'Bakery', 'units', 0.15, 20.00, 3, 4),
-('San Marzano Tomato Sauce', 'Produce', 'kg', 1.20, 6.00, 2, 4),
-('Smoked Gouda Cheese', 'Dairy', 'kg', 5.50, 3.00, 1, 2),
-('Heavy Dairy Cream (35% Fat)', 'Dairy', 'liters', 1.80, 4.00, 1, 2),
-('Eco-Kraft Delivery Meal Box', 'Packaging', 'units', 0.85, 50.00, 4, 5);
+('Mozzarella Cheese Blend', 'Dairy', 'kg', 420.00, 5.00, 1, 2),
+('Fresh Russet Potatoes', 'Produce', 'kg', 28.00, 15.00, 2, 3),
+('Artisan Beef Patty', 'Meat', 'kg', 480.00, 8.00, 1, 1),
+('Brioche Burger Buns', 'Bakery', 'units', 15.00, 20.00, 3, 4),
+('San Marzano Tomato Sauce', 'Produce', 'kg', 120.00, 6.00, 2, 4),
+('Smoked Gouda Cheese', 'Dairy', 'kg', 550.00, 3.00, 1, 2),
+('Heavy Dairy Cream (35% Fat)', 'Dairy', 'liters', 180.00, 4.00, 1, 2),
+('Eco-Kraft Delivery Meal Box', 'Packaging', 'units', 8.50, 50.00, 4, 5);
 
 -- ----------------------------------------------------------------------------
--- STEP 5: PURCHASE ORDERS & LINE ITEMS (Inbound Procurement Records)
+-- STEP 5: PURCHASE ORDERS & LINE ITEMS (Inbound Procurement Records in INR)
 -- ----------------------------------------------------------------------------
 INSERT INTO purchase_orders (
     restaurant_id, supplier_id, order_status, ordered_at, expected_delivery_date, total_cost
 ) VALUES
-(1, 1, 'RECEIVED', CURRENT_TIMESTAMP - INTERVAL '5 days', CURRENT_DATE - INTERVAL '4 days', 42.00),
-(1, 2, 'RECEIVED', CURRENT_TIMESTAMP - INTERVAL '4 days', CURRENT_DATE - INTERVAL '3 days', 14.00),
-(1, 1, 'RECEIVED', CURRENT_TIMESTAMP - INTERVAL '3 days', CURRENT_DATE - INTERVAL '2 days', 24.00),
-(1, 3, 'RECEIVED', CURRENT_TIMESTAMP - INTERVAL '2 days', CURRENT_DATE - INTERVAL '1 day', 15.00),
-(1, 1, 'RECEIVED', CURRENT_TIMESTAMP - INTERVAL '10 days', CURRENT_DATE - INTERVAL '9 days', 7.20);
+(1, 1, 'RECEIVED', CURRENT_TIMESTAMP - INTERVAL '5 days', CURRENT_DATE - INTERVAL '4 days', 4200.00),
+(1, 2, 'RECEIVED', CURRENT_TIMESTAMP - INTERVAL '4 days', CURRENT_DATE - INTERVAL '3 days', 1400.00),
+(1, 1, 'RECEIVED', CURRENT_TIMESTAMP - INTERVAL '3 days', CURRENT_DATE - INTERVAL '2 days', 2400.00),
+(1, 3, 'RECEIVED', CURRENT_TIMESTAMP - INTERVAL '2 days', CURRENT_DATE - INTERVAL '1 day', 1500.00),
+(1, 1, 'RECEIVED', CURRENT_TIMESTAMP - INTERVAL '10 days', CURRENT_DATE - INTERVAL '9 days', 720.00);
 
 INSERT INTO purchase_order_items (
     po_id, ingredient_id, quantity_ordered, unit_price
 ) VALUES
-(1, 1, 10.00, 4.20), -- 10kg Mozzarella
-(2, 2, 50.00, 0.28), -- 50kg Potatoes
-(3, 3, 5.00, 4.80),  -- 5kg Beef Patties
-(4, 4, 100.00, 0.15),-- 100 Brioche Buns
-(5, 7, 4.00, 1.80);  -- 4 Liters Heavy Cream (Will be expired)
+(1, 1, 10.00, 420.00), -- 10kg Mozzarella
+(2, 2, 50.00, 28.00),  -- 50kg Potatoes
+(3, 3, 5.00, 480.00),  -- 5kg Beef Patties
+(4, 4, 100.00, 15.00), -- 100 Brioche Buns
+(5, 7, 4.00, 180.00);  -- 4 Liters Heavy Cream (Will be expired)
 
 -- ----------------------------------------------------------------------------
 -- STEP 6: INVENTORY BATCHES (FIFO Demonstration & Trigger Test)
@@ -146,17 +146,17 @@ INSERT INTO inventory_batches (
 (7, 5, 'BATCH-CREAM-EXPIRED-99', 4.00, 4.00, CURRENT_TIMESTAMP - INTERVAL '10 days', CURRENT_DATE - INTERVAL '1 day', FALSE);
 
 -- ----------------------------------------------------------------------------
--- STEP 7: MENU ITEMS (Synchronized with DoorDash Front-End App)
+-- STEP 7: MENU ITEMS (Synchronized with DoorDash Front-End App in INR)
 -- ----------------------------------------------------------------------------
 INSERT INTO menu_items (
     restaurant_id, item_name, item_category, description, price, 
     preparation_time_mins, is_available
 ) VALUES
-(1, 'Cheesy Street Fries', 'Snacks', 'Crispy golden fries smothered in melty aged cheese blend', 4.50, 10, TRUE),
-(1, 'Smoked Brioche Burger', 'Burgers', 'Juicy double-sear artisan beef patty with smoked gouda & caramelized shallots', 12.00, 15, TRUE),
-(1, 'Margherita Pizza', 'Pizza', 'Woodfired sourdough pizza with San Marzano tomato sauce and fresh mozzarella', 12.00, 18, TRUE),
-(2, 'Chole Bhature Executive Platter', 'North Indian', 'Spiced Punjabi chickpeas served with two golden bhature and pickle', 6.00, 12, TRUE),
-(3, 'Double Smash Cheeseburger', 'Burgers', 'Two seared beef patties with American cheese and house relish', 8.50, 12, TRUE);
+(1, 'Cheesy Street Fries', 'Snacks', 'Crispy golden fries smothered in melty aged cheese blend', 180.00, 10, TRUE),
+(1, 'Smoked Brioche Burger', 'Burgers', 'Juicy double-sear artisan beef patty with smoked gouda & caramelized shallots', 350.00, 15, TRUE),
+(1, 'Margherita Pizza', 'Pizza', 'Woodfired sourdough pizza with San Marzano tomato sauce and fresh mozzarella', 299.00, 18, TRUE),
+(2, 'Chole Bhature Executive Platter', 'North Indian', 'Spiced Punjabi chickpeas served with two golden bhature and pickle', 150.00, 12, TRUE),
+(3, 'Double Smash Cheeseburger', 'Burgers', 'Two seared beef patties with American cheese and house relish', 260.00, 12, TRUE);
 
 -- ----------------------------------------------------------------------------
 -- STEP 8: RECIPE BOM (Bill of Materials linking Dishes to Inventory Ingredients)
@@ -217,7 +217,7 @@ INSERT INTO dashers (
  ST_SetSRID(ST_MakePoint(77.3665, 28.6275), 4326), TRUE, FALSE, 4.70);
 
 -- ----------------------------------------------------------------------------
--- STEP 11: HISTORICAL DELIVERED ORDERS & 3-WAY FINANCIAL SETTLEMENTS
+-- STEP 11: HISTORICAL DELIVERED ORDERS & 3-WAY FINANCIAL SETTLEMENTS (INR)
 -- ----------------------------------------------------------------------------
 -- Historical Order #1: Delivered earlier today to student Divyansh
 INSERT INTO orders (
@@ -226,17 +226,17 @@ INSERT INTO orders (
 ) VALUES
 (1, 1, 1, 'DELIVERED', 
  ST_SetSRID(ST_MakePoint(77.3698, 28.6297), 4326), 
- 9.00, 2.99, 2.00, 13.99, CURRENT_TIMESTAMP - INTERVAL '3 hours', CURRENT_TIMESTAMP - INTERVAL '2 hours 30 mins');
+ 360.00, 40.00, 20.00, 420.00, CURRENT_TIMESTAMP - INTERVAL '3 hours', CURRENT_TIMESTAMP - INTERVAL '2 hours 30 mins');
 
 INSERT INTO order_items (order_id, item_id, quantity, unit_price, subtotal)
-VALUES (1, 1, 2, 4.50, 9.00); -- 2x Cheesy Street Fries
+VALUES (1, 1, 2, 180.00, 360.00); -- 2x Cheesy Street Fries
 
--- Penny-perfect ledger check: 7.20 (restaurant) + 1.80 (platform) + 4.99 (dasher) = 13.99
+-- Penny-perfect ledger check: 288.00 (restaurant 80%) + 72.00 (platform 20%) + 60.00 (dasher fee+tip) = 420.00
 INSERT INTO payments (
     order_id, payment_method, payment_status, gross_amount, 
     restaurant_cut, platform_fee, dasher_payout, transaction_reference, settled_at
 ) VALUES
-(1, 'UPI', 'SETTLED', 13.99, 7.20, 1.80, 4.99, 'TXN-UPI-984210', CURRENT_TIMESTAMP - INTERVAL '2 hours 30 mins');
+(1, 'UPI', 'SETTLED', 420.00, 288.00, 72.00, 60.00, 'TXN-UPI-984210', CURRENT_TIMESTAMP - INTERVAL '2 hours 30 mins');
 
 -- Historical Order #2: Delivered to student Abhishek
 INSERT INTO orders (
@@ -245,16 +245,16 @@ INSERT INTO orders (
 ) VALUES
 (2, 1, 2, 'DELIVERED', 
  ST_SetSRID(ST_MakePoint(77.3680, 28.6285), 4326), 
- 12.00, 2.99, 3.00, 17.99, CURRENT_TIMESTAMP - INTERVAL '5 hours', CURRENT_TIMESTAMP - INTERVAL '4 hours 30 mins');
+ 350.00, 40.00, 30.00, 420.00, CURRENT_TIMESTAMP - INTERVAL '5 hours', CURRENT_TIMESTAMP - INTERVAL '4 hours 30 mins');
 
 INSERT INTO order_items (order_id, item_id, quantity, unit_price, subtotal)
-VALUES (2, 2, 1, 12.00, 12.00); -- 1x Smoked Brioche Burger
+VALUES (2, 2, 1, 350.00, 350.00); -- 1x Smoked Brioche Burger
 
--- Penny-perfect ledger check: 9.60 (restaurant) + 2.40 (platform) + 5.99 (dasher) = 17.99
+-- Penny-perfect ledger check: 280.00 (restaurant 80%) + 70.00 (platform 20%) + 70.00 (dasher fee+tip) = 420.00
 INSERT INTO payments (
     order_id, payment_method, payment_status, gross_amount, 
     restaurant_cut, platform_fee, dasher_payout, transaction_reference, settled_at
 ) VALUES
-(2, 'CREDIT_CARD', 'SETTLED', 17.99, 9.60, 2.40, 5.99, 'TXN-CC-192841', CURRENT_TIMESTAMP - INTERVAL '4 hours 30 mins');
+(2, 'CREDIT_CARD', 'SETTLED', 420.00, 280.00, 70.00, 70.00, 'TXN-CC-192841', CURRENT_TIMESTAMP - INTERVAL '4 hours 30 mins');
 
 COMMIT;

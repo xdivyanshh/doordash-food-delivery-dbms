@@ -294,7 +294,7 @@ CREATE TABLE IF NOT EXISTS orders (
         CHECK (order_status IN ('PLACED', 'CONFIRMED', 'PREPARING', 'READY_FOR_PICKUP', 'OUT_FOR_DELIVERY', 'DELIVERED', 'CANCELLED')),
     delivery_destination GEOMETRY(Point, 4326) NOT NULL,
     subtotal NUMERIC(10, 2) NOT NULL CHECK (subtotal >= 0),
-    delivery_fee NUMERIC(10, 2) NOT NULL DEFAULT 2.99 CHECK (delivery_fee >= 0),
+    delivery_fee NUMERIC(10, 2) NOT NULL DEFAULT 40.00 CHECK (delivery_fee >= 0),
     dasher_tip NUMERIC(10, 2) NOT NULL DEFAULT 0.00 CHECK (dasher_tip >= 0),
     total_amount NUMERIC(10, 2) NOT NULL CHECK (total_amount >= 0),
     placed_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -389,8 +389,8 @@ AS $$
 DECLARE
     v_item_price NUMERIC(10, 2);
     v_subtotal NUMERIC(10, 2);
-    v_delivery_fee NUMERIC(10, 2) := 2.99;
-    v_dasher_tip NUMERIC(10, 2) := 3.00;
+    v_delivery_fee NUMERIC(10, 2) := 40.00;
+    v_dasher_tip NUMERIC(10, 2) := 30.00;
     v_total_amount NUMERIC(10, 2);
     
     v_restaurant_cut NUMERIC(10, 2);
@@ -539,6 +539,7 @@ BEGIN
         'status', 'SUCCESS',
         'order_id', v_order_id,
         'order_status', v_order_status,
+        'currency', 'INR (₹)',
         'dasher_id', v_dasher_id,
         'total_amount', v_total_amount,
         'restaurant_cut', v_restaurant_cut,
@@ -633,8 +634,9 @@ FOR EACH ROW
 EXECUTE FUNCTION fn_audit_expired_inventory_batch();
 
 -- AUTOMATED SWEEP PROCEDURE: Scans all batches and flags expired lots
+DROP FUNCTION IF EXISTS sweep_and_quarantine_expired_batches();
 CREATE OR REPLACE FUNCTION sweep_and_quarantine_expired_batches()
-RETURNS TABLE(quarantined_batches INT, total_loss_dollars NUMERIC)
+RETURNS TABLE(quarantined_batches INT, total_loss_amount NUMERIC)
 LANGUAGE plpgsql
 AS $$
 DECLARE

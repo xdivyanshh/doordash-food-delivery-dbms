@@ -111,7 +111,7 @@ SELECT
     b.batch_number,
     w.wasted_quantity || ' ' || i.unit_of_measure AS quantity_scrapped,
     w.unit_cost,
-    '$' || w.total_loss_cost AS financial_loss,
+    '₹' || w.total_loss_cost AS financial_loss,
     w.waste_reason,
     w.action_taken,
     w.logged_at

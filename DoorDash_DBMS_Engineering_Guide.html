@@ -1324,9 +1324,9 @@ SELECT place_order_atomic(
                     <p><strong>Action:</strong> Engineered and deployed a 100% pure HTML5 and CSS3 mobile-first responsive frontend application (<code>doordash_restaurant_app.html</code>) with zero JavaScript, modeling the official single-restaurant "DoorDash" brand experience.</p>
                     <div class="logic-line">
                         • <strong>Zero-JS Pure CSS State Machine:</strong> Dynamic routing across 7 distinct screens (Splash, Wild Menu, Fries Details, Burger Details, Favorites, Split Checkouts, and PostGIS Live Tracker) achieved via hidden <code>&lt;input type="radio" class="screen-toggle"&gt;</code> and <code>:checked ~ .app-container</code> CSS selectors.<br>
-                        • <strong>Reactive Stepper &amp; Price Calculator:</strong> Pure CSS quantity counters (1 to 5 for Fries, 1 to 3 for Burger) that update counters, display tags, and recalculate sticky button order prices ($4.50 to $22.50) without a single line of script.<br>
+                        • <strong>Reactive Stepper &amp; Price Calculator:</strong> Pure CSS quantity counters (1 to 5 for Fries, 1 to 3 for Burger) that update counters, display tags, and recalculate sticky button order prices (₹180 to ₹900) without a single line of script.<br>
                         • <strong>Signature Branding UI:</strong> Replicated the uploaded high-contrast crimson theme (<code>#981919</code>), scalloped starburst dish card containers, frosted glass floating bottom navigation with badge indicators, and slide-up drawers for Trigram Search and Dispatch Notifications.<br>
-                        • <strong>Database Engine Visualization:</strong> Explicitly binds frontend interactions to our PostgreSQL 17 backend &mdash; demonstrating Recipe BOM deductions (e.g. 0.35kg potato + 0.15kg cheddar), 3-way multi-split financial settlements ($3.60 restaurant / $0.90 platform / $3.99 dasher), and PostGIS spatial proximity dispatch (Dasher Raju Kumar at 250m).
+                        • <strong>Database Engine Visualization:</strong> Explicitly binds frontend interactions to our PostgreSQL 17 backend &mdash; demonstrating Recipe BOM deductions (e.g. 0.35kg potato + 0.15kg cheddar), 3-way multi-split financial settlements (₹144.00 restaurant / ₹36.00 platform / ₹40.00 dasher), and PostGIS spatial proximity dispatch (Dasher Raju Kumar at 250m).
                     </div>
                 </div>
 
@@ -1337,8 +1337,8 @@ SELECT place_order_atomic(
                     <div class="logic-line">
                         • <strong>PostGIS Sector 62 GPS Coordinates:</strong> Real spatial pins for JIIT Campus (Customer at <code>POINT(77.3698 28.6297)</code>), DoorDash Kitchen #1 (<code>POINT(77.3670 28.6280)</code>), and Dasher Raju Kumar stationed 171m away at Sector 62 roundabout.<br>
                         • <strong>FIFO Inventory Depletion Proof:</strong> Seeded Mozzarella Cheese across Batch #1 (expiring in 2 days) and Batch #2 (expiring in 14 days), proving that orders automatically deplete expiring stock first.<br>
-                        • <strong>Automated Quarantine Demonstration:</strong> Pre-seeded Batch #99 (Heavy Dairy Cream, expired yesterday), verified that <code>sweep_and_quarantine_expired_batches()</code> zeroes stock and logs a $7.20 loss to <code>waste_logs</code>.<br>
-                        • <strong>Penny-Perfect Financial Reconciliation:</strong> Verified multi-split check constraint <code>restaurant_cut + platform_fee + dasher_payout = gross_amount</code> with zero discrepancy ($0.00 leakage).
+                        • <strong>Automated Quarantine Demonstration:</strong> Pre-seeded Batch #99 (Heavy Dairy Cream, expired yesterday), verified that <code>sweep_and_quarantine_expired_batches()</code> zeroes stock and logs a ₹720.00 loss to <code>waste_logs</code>.<br>
+                        • <strong>Penny-Perfect Financial Reconciliation:</strong> Verified multi-split check constraint <code>restaurant_cut + platform_fee + dasher_payout = gross_amount</code> with zero discrepancy (₹0.00 leakage).
                     </div>
                 </div>
 
@@ -1512,7 +1512,7 @@ SELECT place_order_atomic(
                         </thead>
                         <tbody>
                             <tr>
-                                <td>A bug causes negative prices (e.g. -$40).</td>
+                                <td>A bug causes negative prices (e.g. -₹40).</td>
                                 <td><code>CHECK (cost_per_unit &gt;= 0)</code></td>
                                 <td>Guarantees mathematical sanity even if the backend fails.</td>
                             </tr>
@@ -1563,9 +1563,9 @@ SELECT place_order_atomic(
                     <div class="callout-title">💰 The Price of Inflation &amp; Ledger Immutability</div>
                     <p>Why didn't we just look up <code>menu_items.price</code> via a SQL <code>JOIN</code> at receipt generation time? <strong>Because menu prices change over time!</strong></p>
                     <div class="logic-line">
-                        • <strong>Today:</strong> A Pepperoni Pizza is $12.00. You buy it.<br>
-                        • <strong>Next Month:</strong> Inflation hits or commodity cheese prices rise, and the restaurant updates the menu price to $16.00.<br>
-                        • <strong>The Audit Disaster:</strong> If your database didn't freeze the price inside <code>order_items</code>, your historical receipt query for last month would join against <code>menu_items</code> and retroactively claim you paid $16.00!<br>
+                        • <strong>Today:</strong> A Margherita Pizza is ₹299.00. You buy it.<br>
+                        • <strong>Next Month:</strong> Inflation hits or commodity cheese prices rise, and the restaurant updates the menu price to ₹349.00.<br>
+                        • <strong>The Audit Disaster:</strong> If your database didn't freeze the price inside <code>order_items</code>, your historical receipt query for last month would join against <code>menu_items</code> and retroactively claim you paid ₹349.00!<br>
                         • <strong>The Golden Accounting Law:</strong> Storing an immutable price snapshot at the exact millisecond of checkout is mandatory for legal compliance, financial reconciliation, and tax audits.
                     </div>
                 </div>

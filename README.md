@@ -85,7 +85,7 @@ A high-throughput PL/pgSQL transaction procedure that encapsulates order placeme
 A single-restaurant responsive web application built **strictly in 100% pure HTML5 and CSS3** (zero JavaScript):
 * **State Management:** Navigation and routing powered entirely via hidden radio buttons and CSS `:checked ~ .app-container` selectors.
 * **Reactive Stepper:** Interactive `+` and `−` quantity counters ($1$ to $5$) that recalculate order button prices dynamically.
-* **Decoupled Dish Flow:** Distinct screens for *Cheesy Street Fries* (\$4.50) and *Smoked Brioche Burger* (\$12.00) with their respective Recipe BOM ingredients.
+* **Decoupled Dish Flow:** Distinct screens for *Cheesy Street Fries* (₹180) and *Smoked Brioche Burger* (₹350) with their respective Recipe BOM ingredients.
 * **Live PostGIS Tracker:** Modern light-theme cartographic map showing DoorDash Kitchen #1, customer destination at JIIT Noida, and pulsing courier pin Raju Kumar (at 171m).
 * **Local Identity:** Features the official DoorDash winged logo and high-resolution photo of the **JIIT Annapurna Cafeteria**.
 
@@ -129,9 +129,9 @@ CREATE DATABASE doordash_db;
 SELECT jsonb_pretty(place_order_atomic(
     p_customer_id   => 1,
     p_restaurant_id => 1,
-    p_item_id       => 1,      -- Cheesy Street Fries
-    p_quantity      => 2,      -- 2 orders
-    p_payment_method=> 'CREDIT_CARD'
+    p_item_id       => 1,      -- Cheesy Street Fries (₹180)
+    p_quantity      => 2,      -- 2 orders (₹360 food + ₹40 delivery fee + ₹30 tip = ₹430 total)
+    p_payment_method=> 'UPI'
 ));
 ```
 
