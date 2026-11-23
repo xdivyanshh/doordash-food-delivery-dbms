@@ -3292,8 +3292,7 @@ $env:PGPASSWORD='1234'; &amp; 'psql.exe' -h 127.0.0.1 -p 5432 -U postgres -d doo
             <span style="font-family: var(--font-mono); font-size: 7.5px; color: var(--c-forest); font-weight: 700;">RAPID DEFENSE</span>
           </div>
           <div style="font-family: var(--font-sans); font-size: 8.8px; line-height: 1.35; color: var(--c-text-primary);">
-            <strong>Q1: Why NUMERIC(10, 2) over FLOAT?</strong> Prevents binary floating-point rounding drift ($0.1 + 0.2 
-e 0.3$), guaranteeing zero-penny discrepancy.<br>
+            <strong>Q1: Why NUMERIC(10, 2) over FLOAT?</strong> Prevents binary floating-point rounding drift (0.1 + 0.2 &ne; 0.3), guaranteeing zero-penny discrepancy.<br>
             <strong>Q2: Why ON DELETE RESTRICT on ingredients?</strong> Prevents accidental cascading deletes that would orphan active inventory batches or recipe BOMs.<br>
             <strong>Q3: How does Two-Phase Locking prevent Lost Updates?</strong> Exclusive row-level locks (<code>FOR UPDATE</code>) serialize access; competing checkouts wait until commit.
           </div>
